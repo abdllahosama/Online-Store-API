@@ -1,0 +1,21 @@
+{
+    "defaultEnv": { "ENV" : "ENV" },
+
+    "dev": {
+        "host": { "ENV" : "dbHost" },
+        "user": { "ENV" : "dbUser" },
+        "password" : { "ENV" : "dbPassword" },
+        "database": { "ENV" : "dbName" },
+        "driver": "postgres",
+        "multipleStatements": true
+    },
+
+    "test": {
+        "host": { "ENV" : "dbHost" },
+        "user": { "ENV" : "dbUser" },
+        "password" : { "ENV" : "dbPassword" },
+        "database": { "ENV" : "dbTest" },
+        "driver": "postgres",
+        "multipleStatements": true
+    }
+  }
