@@ -21,6 +21,23 @@
  <li><a href="https://expressjs.com/">express</a> for creating serve</li>
  <li><a href="https://prettier.io/">prettier </a> to make code readable</li>
  <li><a href="https://eslint.org/">eslint</a> for check our code</li>
+ <li><a href="https://www.npmjs.com/package/bcrypt">bcrypt</a> for hash passwords</li>
+ <li><a href="https://www.npmjs.com/package/dotenv">dotenv</a> for get data from .env file</li>
+ <li><a href="https://www.npmjs.com/package/jsonwebtoken">jsonwebtoken</a> for authurisation</li>
+ <li><a href="https://www.npmjs.com/package/pg">pg</a> for connecting to database</li>
  <li><a href="https://jasmine.github.io/">jasmine</a> for unit testing</li>
  <li><a href="https://www.npmjs.com/package/supertest">supertest</a> for testing end points</li>
 </ol>
+
+<h2>getting star with the project ?</h2>
+<ol>
+ <li>
+first off all you have to check your node using following
+
+```
+npm -v
+```
+ </li>
+ 
+ 
+ </ol>
