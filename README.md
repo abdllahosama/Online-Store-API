@@ -72,18 +72,21 @@ npm run build
  </li>
 <li> 
  to use prettier run
+ 
 ```command
 npm run prettier
 ```
  </li>
 <li>
 to use eslint run
+ 
 ```command
 npm run eslint
 ```
  </li>
 <li>
 to run unit tisting run
+ 
 ```command
 npm run test
 ```
