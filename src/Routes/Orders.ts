@@ -13,8 +13,6 @@ router.get('/completeOrder', Authorization, OrdersController.completeOrder)
 router.get('/currentOrder', Authorization, OrdersController.currentOrder)
 // // get completed  orders
 router.get('/completedorders', Authorization, OrdersController.completedOrders)
-// get singel complete order
-router.get('/completedOrders', Authorization, OrdersController.completedOrders)
 // show singel order
 router.get('/showOrder/:id', Authorization, OrdersController.showOrder)
 

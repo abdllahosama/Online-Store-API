@@ -53,7 +53,7 @@ class OrdersController {
             // init order model
             const store = new orderStore()
             // get current user order
-            let currentOrder: order = await store.currntOrder(
+            const currentOrder: order = await store.currntOrder(
                 autUser.id as number
             )
             // if not current create new one
@@ -89,7 +89,7 @@ class OrdersController {
             // init order model
             const store = new orderStore()
             // get current user order
-            let currentOrder: order = await store.currntOrder(
+            const currentOrder: order = await store.currntOrder(
                 autUser.id as number
             )
             // if not current create new one

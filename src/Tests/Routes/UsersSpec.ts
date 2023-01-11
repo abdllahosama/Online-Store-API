@@ -14,7 +14,7 @@ let user: user = {
     password: '123456',
 }
 
-let token: string = ''
+let token = ''
 
 describe('Test users api response', (): void => {
     // int auth token
@@ -58,7 +58,7 @@ describe('Test users api response', (): void => {
             password: '123456',
         }
         const responce = await request
-            .post(`/api/users`)
+            .post('/api/users')
             .send(user)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')

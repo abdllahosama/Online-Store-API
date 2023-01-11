@@ -64,9 +64,9 @@ export class orderStore {
             // connection query
             const sql = `SELECT * FROM orders WHERE user_id='${user_id}' AND status='active' ORDER BY id DESC LIMIT 1`
             // send query to database
-            let data = await connection.query(sql)
+            const data = await connection.query(sql)
             // get order productas
-            let currentOrder: order = data.rows[0]
+            const currentOrder: order = data.rows[0]
             if (currentOrder) {
                 const orderProductssql = `SELECT order_products.id, order_products.order_id, order_products.product_id, order_products.quantity, products.name as product_name FROM order_products JOIN products ON order_products.product_id = products.id Where order_products.order_id='${currentOrder.id}'`
                 const result = await connection.query(orderProductssql)
@@ -93,9 +93,9 @@ export class orderStore {
             // connection query
             const sql = `INSERT INTO orders (user_id, status) VALUES ('${user_id}', 'active') RETURNING *`
             // send query to database
-            let data = await connection.query(sql)
+            const data = await connection.query(sql)
             // init new order
-            let newOrder: order = data.rows[0]
+            const newOrder: order = data.rows[0]
             // close database
             connection.release()
             // return order data
@@ -116,7 +116,7 @@ export class orderStore {
             // connection query
             const sql = `UPDATE orders SET status='complete' WHERE id='${id}'`
             // send query to database
-            const result = await connection.query(sql)
+            await connection.query(sql)
             // close database
             connection.release()
             // return order data
@@ -173,7 +173,7 @@ export class orderStore {
             // close database
             connection.release()
             // return order data
-            let order: order = result.rows[0]
+            const order: order = result.rows[0]
             // add order products to order
             order.orderProducts = orderProducts.rows
             // return order data

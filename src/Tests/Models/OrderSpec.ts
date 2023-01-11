@@ -71,7 +71,7 @@ describe('Test order model', (): void => {
 
     // currentOrder method returns order
     it('currntOrder method should return new order', async (): Promise<void> => {
-        const openOrder = await store.openOrder(orderUser.id as number)
+        await store.openOrder(orderUser.id as number)
         const currentOrder = await store.currntOrder(orderUser.id as number)
         expect(typeof currentOrder == 'object').toBeTrue()
     })
