@@ -55,33 +55,36 @@ scond you have to clone the project to your pc
  <li>
  now copy env example and add your environment data *dont forget to create dev and test database*
  </li>
+ 
  <li>
  to start developing run
-```
+  
+```command
 npm run dev
 ```
  </li>
 <li>
 to build project run 
-```
+ 
+```command
 npm run build
 ```
  </li>
 <li> 
  to use prettier run
-```
+```command
 npm run prettier
 ```
  </li>
 <li>
 to use eslint run
-```
+```command
 npm run eslint
 ```
  </li>
 <li>
 to run unit tisting run
-```
+```command
 npm run test
 ```
   </li>
