@@ -30,9 +30,14 @@
 </ol>
 
 <h2>getting star with the project ?</h2>
-
-first off all you have to check your node using foloing
+<ol>
+ <li>
+first off all you have to check your node using following
 
 ```
 npm -v
 ```
+ </li>
+ 
+ 
+ </ol>
