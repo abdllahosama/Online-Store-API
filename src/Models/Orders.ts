@@ -1,59 +1,58 @@
-import client from "../Database"
-import {user} from "./Users"
-import {product} from "./Products"
+import client from '../Database'
+import { user } from './Users'
+import { product } from './Products'
 
 // status enum
-enum orderStatus {
+export enum orderStatus {
     active = 'active',
-    complete = 'complete'
+    complete = 'complete',
 }
 
 //order product type
 export type orderProduct = {
-    id?: number,
-    order_id: number,
-    product_id: number,
-    quantity: number,
+    id?: number
+    order_id: number
+    product_id: number
+    quantity: number
     product: product
 }
 
 // order type
 export type order = {
-    id?: number,
-    userId: number,
-    status: orderStatus,
-    user?: user,
+    id?: number
+    user_id: number
+    status: orderStatus
+    user?: user
     orderProducts?: orderProduct[]
 }
 
 // order class
 export class orderStore {
-
     /**
      * this method returns all orders
      * @returns orders
      */
     public index = async (): Promise<order[]> => {
         try {
-        // connect to database
-        const connection = await client.connect()
-        // connection query
-        const sql = 'SELECT orders.id, orders.status, users.user_name as user FROM orders JOIN users ON orders.user_id = users.id'
-        // send query to database
-        const result = await connection.query(sql)
-        // close database
-        connection.release()
-        // return order data
-        return  result.rows
+            // connect to database
+            const connection = await client.connect()
+            // connection query
+            const sql =
+                'SELECT orders.id, orders.status, users.user_name as user FROM orders JOIN users ON orders.user_id = users.id'
+            // send query to database
+            const result = await connection.query(sql)
+            // close database
+            connection.release()
+            // return order data
+            return result.rows
         } catch (error) {
             throw new Error(`can't get orders: ${error}`)
         }
     }
 
-
     /**
      * this method insert new order to database
-     * @param order 
+     * @param order
      * @returns order
      */
     public insert = async (order: order): Promise<order> => {
@@ -61,20 +60,23 @@ export class orderStore {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `INSERT INTO orders (user_id, status) VALUES ('${order.userId}', '${order.status}') RETURNING *`
+            const sql = `INSERT INTO orders (user_id, status) VALUES ('${order.user_id}', '${order.status}') RETURNING *`
             // send query to database
             let data = await connection.query(sql)
             // init new order
             let newOrder: order = data.rows[0]
 
             //check if is set order products
-            if(order.orderProducts && order.orderProducts.length > 0) {
+            if (order.orderProducts && order.orderProducts.length > 0) {
                 // init query
-                let productsSql:string = `INSERT INTO order_products (order_id, product_id, quantity) VALUES`
+                let productsSql: string = `INSERT INTO order_products (order_id, product_id, quantity) VALUES`
                 // build query by order products
                 order.orderProducts?.forEach((orderProduct, key) => {
                     productsSql += `(${newOrder.id}, ${orderProduct.product_id}, ${orderProduct.quantity})`
-                    if (order.orderProducts && order.orderProducts?.length != key + 1){
+                    if (
+                        order.orderProducts &&
+                        order.orderProducts?.length != key + 1
+                    ) {
                         productsSql += ','
                     } else {
                         productsSql += ' RETURNING *'
@@ -89,7 +91,7 @@ export class orderStore {
             // close database
             connection.release()
             // return order data
-            return newOrder;
+            return newOrder
         } catch (error) {
             throw new Error(`can't inser order: ${error}`)
         }
@@ -97,7 +99,7 @@ export class orderStore {
 
     /**
      * this method get single order from database
-     * @param id 
+     * @param id
      * @returns order
      */
     public show = async (id: number): Promise<order> => {
@@ -115,11 +117,11 @@ export class orderStore {
             // close database
             connection.release()
             // return order data
-            let order: order = result.rows[0];
+            let order: order = result.rows[0]
             // add order products to order
-            order.orderProducts = orderProducts.rows;
+            order.orderProducts = orderProducts.rows
             // return order data
-            return order;
+            return order
         } catch (error) {
             throw new Error(`cant't get order: ${error}`)
         }
@@ -127,16 +129,16 @@ export class orderStore {
 
     /**
      * this methoud update order in database
-     * @param id 
-     * @param order 
+     * @param id
+     * @param order
      * @returns void
      */
-    public update = async (id: number, order: order): Promise<void> => {
+    public update = async (id: number, order: order): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `UPDATE orders SET user_id='${order.userId}' WHERE id='${id}'`
+            const sql = `UPDATE orders SET user_id='${order.user_id}' WHERE id='${id}'`
             // send query to database
             const newOrder = await connection.query(sql)
             //update order products
@@ -146,6 +148,8 @@ export class orderStore {
             })
             // close database
             connection.release()
+            // return true status
+            return true;
         } catch (error) {
             throw new Error(`cant't update order: ${error}`)
         }
@@ -153,10 +157,10 @@ export class orderStore {
 
     /**
      * thes method delete order from database
-     * @param id 
+     * @param id
      * @returns void
      */
-    public delete = async (id: number): Promise<void> => {
+    public delete = async (id: number): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -166,6 +170,8 @@ export class orderStore {
             await connection.query(sql)
             // close database
             connection.release()
+            // return true status
+            return true;
         } catch (error) {
             throw new Error(`cant't delete order: ${error}`)
         }

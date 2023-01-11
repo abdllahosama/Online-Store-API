@@ -1,18 +1,20 @@
-import { Request,  Response } from 'express'
-import { product, productStore} from '../Models/Products'
+import { Request, Response } from 'express'
+import { product, productStore } from '../Models/Products'
 
 class ProductsController {
-
     /**
      * this method get all products
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
-    public static index = async (request: Request, response: Response): Promise<void> => {
+    public static index = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
         try {
-            const store = new productStore();
+            const store = new productStore()
             const data = await store.index()
-            response.status(200).json({status: 'success', 'data': data})
+            response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't get products: ${error}`)
         }
@@ -20,14 +22,17 @@ class ProductsController {
 
     /**
      * this method show product
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
-    public static show = async (request: Request, response: Response): Promise<void> => {
+    public static show = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
         try {
-            const store = new productStore();
+            const store = new productStore()
             const data = await store.show(parseInt(request.params.id))
-            response.status(200).json({status: 'success', 'data': data})
+            response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't show product: ${error}`)
         }
@@ -35,21 +40,24 @@ class ProductsController {
 
     /**
      * this method create new product
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
-    public static create = async (request: Request, response: Response): Promise<void> => {
+    public static create = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
         try {
-            const store = new productStore();
+            const store = new productStore()
             const product: product = {
                 name: request.body.name,
                 description: request.body.description,
-                price: request.body.price
+                price: request.body.price,
             }
 
             const data = await store.insert(product)
 
-            response.status(200).json({status: 'success', 'data': data})
+            response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't create product: ${error}`)
         }
@@ -57,21 +65,27 @@ class ProductsController {
 
     /**
      * this method update product
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
-    public static update = async (request: Request, response: Response): Promise<void> => {
+    public static update = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
         try {
-            const store = new productStore();
+            const store = new productStore()
             const product: product = {
                 name: request.body.name,
                 description: request.body.description,
-                price: request.body.price
+                price: request.body.price,
             }
 
-            const data = await store.update(parseInt(request.params.id) , product)
+            const data = await store.update(
+                parseInt(request.params.id),
+                product
+            )
 
-            response.status(200).json({status: 'success', 'data': data})
+            response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't update product: ${error}`)
         }
@@ -79,18 +93,24 @@ class ProductsController {
 
     /**
      * this method delete product
-     * @param request 
-     * @param response 
+     * @param request
+     * @param response
      */
-    public static destroy = async (request: Request, response: Response): Promise<void> => {
-        try{
-            const store = new productStore();
+    public static destroy = async (
+        request: Request,
+        response: Response
+    ): Promise<void> => {
+        try {
+            const store = new productStore()
             await store.delete(parseInt(request.params.id))
-            response.status(200).json({status: 'success', 'data': "product deleted successfuly"})
+            response.status(200).json({
+                status: 'success',
+                data: 'product deleted successfuly',
+            })
         } catch (error) {
-            throw new Error(`cant't delete product: ${error}`) 
+            throw new Error(`cant't delete product: ${error}`)
         }
     }
 }
 
-export default ProductsController;
+export default ProductsController

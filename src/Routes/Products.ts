@@ -8,5 +8,5 @@ router.get('/:id', ProductsController.show)
 router.post('/', ProductsController.create)
 router.put('/:id', ProductsController.update)
 router.delete('/:id', ProductsController.destroy)
-  
+
 export default router

@@ -1,41 +1,39 @@
-import client from "../Database"
+import client from '../Database'
 
 // product type
 export type product = {
-    id?: number,
-    name: string,
-    description: string,
+    id?: number
+    name: string
+    description: string
     price: number
 }
 
 // product class
 export class productStore {
-
     /**
      * this method returns all products
      * @returns products
      */
     public index = async (): Promise<product[]> => {
         try {
-        // connect to database
-        const connection = await client.connect()
-        // connection query
-        const sql = 'SELECT * FROM products'
-        // send query to database
-        const result = await connection.query(sql)
-        // close database
-        connection.release()
-        // return product data
-        return  result.rows
+            // connect to database
+            const connection = await client.connect()
+            // connection query
+            const sql = 'SELECT * FROM products'
+            // send query to database
+            const result = await connection.query(sql)
+            // close database
+            connection.release()
+            // return product data
+            return result.rows
         } catch (error) {
             throw new Error(`can't get products: ${error}`)
         }
     }
 
-
     /**
      * this method insert new product to database
-     * @param product 
+     * @param product
      * @returns product
      */
     public insert = async (product: product): Promise<product> => {
@@ -49,7 +47,7 @@ export class productStore {
             // close database
             connection.release()
             // return product data
-            return result.rows[0];
+            return result.rows[0]
         } catch (error) {
             throw new Error(`can't inser product: ${error}`)
         }
@@ -74,8 +72,8 @@ export class productStore {
 
     /**
      * this methoud update product in database
-     * @param id 
-     * @param product 
+     * @param id
+     * @param product
      * @returns products
      */
     public update = async (id: number, product: product): Promise<boolean> => {
@@ -89,7 +87,7 @@ export class productStore {
             // close database
             connection.release()
             //return status
-            return true;
+            return true
         } catch (error) {
             throw new Error(`cant't update product: ${error}`)
         }
@@ -97,7 +95,7 @@ export class productStore {
 
     /**
      * thes method delete product from database
-     * @param id 
+     * @param id
      */
     public delete = async (id: number): Promise<boolean> => {
         try {
@@ -109,8 +107,8 @@ export class productStore {
             await connection.query(sql)
             // close database
             connection.release()
-            // return status 
-            return true;
+            // return status
+            return true
         } catch (error) {
             throw new Error(`cant't delete product: ${error}`)
         }

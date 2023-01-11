@@ -8,5 +8,5 @@ router.get('/:id', OrdersController.show)
 router.post('/', OrdersController.create)
 router.put('/:id', OrdersController.update)
 router.delete('/:id', OrdersController.destroy)
-  
+
 export default router

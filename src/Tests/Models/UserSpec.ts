@@ -1,21 +1,21 @@
-import {user, userStore} from '../../Models/Users'
+import { user, userStore } from '../../Models/Users'
 
-const store = new userStore();
+const store = new userStore()
 describe('Test user model', (): void => {
     // check index user
     it('should have index method', (): void => {
-        expect(store.index).toBeDefined();
+        expect(store.index).toBeDefined()
     })
 
     // index method returns object
     it('index method should return list of users', async (): Promise<void> => {
         const result = await store.index()
-        expect(typeof result == 'object').toBeTrue();
+        expect(typeof result == 'object').toBeTrue()
     })
 
     // check insert user
     it('should have insert method', (): void => {
-        expect(store.insert).toBeDefined();
+        expect(store.insert).toBeDefined()
     })
 
     // single user return object
@@ -23,18 +23,17 @@ describe('Test user model', (): void => {
         const user: user = {
             firstName: 'abdallah',
             lastName: 'osama',
-            email: 'a.allhosama@gmail.com',
-            userName: 'a.allh',
-            password: '123456'
+            email: 'insert@gmail.com',
+            userName: 'insert',
+            password: '123456',
         }
         const result = await store.insert(user)
-        await store.delete(user?.id as number)
-        expect(typeof result == 'object').toBeTrue();
+        expect(typeof result == 'object').toBeTrue()
     })
 
     // check show user
     it('should have show method', (): void => {
-        expect(store.show).toBeDefined();
+        expect(store.show).toBeDefined()
     })
 
     // show user return exact user
@@ -42,19 +41,18 @@ describe('Test user model', (): void => {
         const user: user = {
             firstName: 'abdallah',
             lastName: 'osama',
-            email: 'a.allhosama@gmail.com',
-            userName: 'a.allh',
-            password: '123456'
+            email: 'show@gmail.com',
+            userName: 'show',
+            password: '123456',
         }
         const result = await store.insert(user)
         const prod = await store.show(result.id as number)
-        await store.delete(user?.id as number)
-        expect(prod).toEqual(result);
+        expect(prod).toEqual(result)
     })
 
     // check update user
     it('should have update method', (): void => {
-        expect(store.update).toBeDefined();
+        expect(store.update).toBeDefined()
     })
 
     // update user return true status
@@ -62,20 +60,18 @@ describe('Test user model', (): void => {
         const user: user = {
             firstName: 'abdallah',
             lastName: 'osama',
-            email: 'a.allhosama@gmail.com',
-            userName: 'a.allh',
-            password: '123456'
+            email: 'update@gmail.com',
+            userName: 'update',
+            password: '123456',
         }
         const result = await store.insert(user)
-        const deleteStatus = await store.update(result.id as number, result)
-        await store.delete(user?.id as number)
-        expect(deleteStatus).toBeTrue();
+        const updateStatus = await store.update(result.id as number, result)
+        expect(updateStatus).toBeTrue()
     })
-
 
     // check delete user
     it('should have delete method', (): void => {
-        expect(store.delete).toBeDefined();
+        expect(store.delete).toBeDefined()
     })
 
     //delete user return true status
@@ -83,14 +79,12 @@ describe('Test user model', (): void => {
         const user: user = {
             firstName: 'abdallah',
             lastName: 'osama',
-            email: 'a.allhosama@gmail.com',
-            userName: 'a.allh',
-            password: '123456'
+            email: 'delete@gmail.com',
+            userName: 'delete',
+            password: '123456',
         }
         const result = await store.insert(user)
         const deleteStatus = await store.delete(result.id as number)
-        await store.delete(user?.id as number)
-        expect(deleteStatus).toBeTrue();
+        expect(deleteStatus).toBeTrue()
     })
-    
 })

@@ -13,8 +13,7 @@ if (config.ENV === 'dev') {
         password: config.dbPassword,
     })
 
-
-// connect for testing
+    // connect for testing
 } else {
     client = new Pool({
         host: config.dbHost,
