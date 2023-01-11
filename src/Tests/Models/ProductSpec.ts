@@ -45,7 +45,4 @@ describe('Test product model', (): void => {
         const prod = await store.show(result.id as number)
         expect(prod).toEqual(result)
     })
-
-    
-
 })

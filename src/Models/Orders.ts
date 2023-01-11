@@ -28,28 +28,29 @@ export type order = {
 
 // order class
 export class orderStore {
-
     /**
      * this method insert product to order
      * @param orderProduct orderProduct
      * @returns boolean
      */
-        public addProductToOrder = async (orderProduct: orderProduct): Promise<boolean> => {
-            try {
-                // connect to database
-                const connection = await client.connect()
-                // connection query
-                const sql = `INSERT INTO order_products (order_id, product_id, quantity) VALUES ('${orderProduct.order_id}', '${orderProduct.product_id}', '${orderProduct.quantity}')` 
-                // send query to database
-                await connection.query(sql)
-                // close database
-                connection.release()
-                // return order data
-                return true
-            } catch (error) {
-                throw new Error(`can't inser order product: ${error}`)
-            }
+    public addProductToOrder = async (
+        orderProduct: orderProduct
+    ): Promise<boolean> => {
+        try {
+            // connect to database
+            const connection = await client.connect()
+            // connection query
+            const sql = `INSERT INTO order_products (order_id, product_id, quantity) VALUES ('${orderProduct.order_id}', '${orderProduct.product_id}', '${orderProduct.quantity}')`
+            // send query to database
+            await connection.query(sql)
+            // close database
+            connection.release()
+            // return order data
+            return true
+        } catch (error) {
+            throw new Error(`can't inser order product: ${error}`)
         }
+    }
 
     /**
      * this method get currnt order
@@ -138,7 +139,7 @@ export class orderStore {
             // send query to database
             const result = await connection.query(sql)
             // get each order products
-            result.rows.forEach(async(order: order): Promise<void> => {
+            result.rows.forEach(async (order: order): Promise<void> => {
                 const sql = `SELECT id, order_products.order_id, order_products.product_id, order_products.quantity, products.name as product_name FROM order_products JOIN products ON order_products.product_id = products.id Where order_products.order_id='${order.id}'`
                 const result = await connection.query(sql)
                 order.orderProducts = result.rows
@@ -181,5 +182,4 @@ export class orderStore {
             throw new Error(`cant't get order: ${error}`)
         }
     }
-
 }

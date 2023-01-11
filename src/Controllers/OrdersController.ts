@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 import { order, orderStore } from '../Models/Orders'
+import { user } from '../Models/Users'
+import getUserData from './../Utilities/User'
 
 class OrdersController {
     public static selectProduct = async (
@@ -22,28 +24,42 @@ class OrdersController {
                 quantity: request.body.quantity as number,
             })
             // return message to client
-            response.status(200).json({ status: 'success', message: 'product added successfully' })
+            response
+                .status(200)
+                .json({
+                    status: 'success',
+                    message: 'product added successfully',
+                })
         } catch (error) {
             throw new Error(`cant't add product to order: ${error}`)
         }
     }
 
     public static currentOrder = async (
-        _request: Request,
+        request: Request,
         response: Response
     ): Promise<void> => {
         try {
+            const token = request.get('Authorization') as string
+            const autUser = getUserData(token) as user
             // init order model
             const store = new orderStore()
             // get current user order
-            let currentOrder: order = await store.currntOrder(1)
+            let currentOrder: order = await store.currntOrder(autUser.id as number)
             // if not current create new one
             if (currentOrder) {
                 // return order to client
-                response.status(200).json({ status: 'success', data: currentOrder })
+                response
+                    .status(200)
+                    .json({ status: 'success', data: currentOrder })
             } else {
                 // return no order message to client
-                response.status(200).json({ status: 'faild', message : 'there is no current order' })
+                response
+                    .status(200)
+                    .json({
+                        status: 'faild',
+                        message: 'there is no current order',
+                    })
             }
         } catch (error) {
             throw new Error(`cant't get current order: ${error}`)
@@ -55,23 +71,34 @@ class OrdersController {
         response: Response
     ): Promise<void> => {
         try {
+            const token = request.get('Authorization') as string
+            const autUser = getUserData(token) as user
             // init order model
             const store = new orderStore()
             // get current user order
-            let currentOrder: order = await store.currntOrder(1)
+            let currentOrder: order = await store.currntOrder(autUser.id as number)
             // if not current create new one
             if (!currentOrder) {
                 // return message no order found
-                response.status(200).json({ status: 'success', message: 'no current order founded' })
+                response
+                    .status(200)
+                    .json({
+                        status: 'success',
+                        message: 'no current order founded',
+                    })
             } else {
                 await store.completeOrder(currentOrder.id as number)
-                response.status(200).json({ status: 'success', message: 'order completed successfully' })
+                response
+                    .status(200)
+                    .json({
+                        status: 'success',
+                        message: 'order completed successfully',
+                    })
             }
         } catch (error) {
             throw new Error(`cant't complete order: ${error}`)
         }
     }
-
 
     /**
      * this method get all order
@@ -79,12 +106,14 @@ class OrdersController {
      * @param response
      */
     public static completedOrders = async (
-        _request: Request,
+        request: Request,
         response: Response
     ): Promise<void> => {
         try {
+            const token = request.get('Authorization') as string
+            const autUser = getUserData(token) as user
             const store = new orderStore()
-            const data = await store.completedOrders(1)
+            const data = await store.completedOrders(autUser.id as number)
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't get order: ${error}`)
@@ -108,8 +137,6 @@ class OrdersController {
             throw new Error(`cant't show order: ${error}`)
         }
     }
-
-
 }
 
 export default OrdersController

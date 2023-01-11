@@ -1,12 +1,13 @@
 import { Router } from 'express'
 import UsersController from '../Controllers/UsersController'
+import Authorization from '../Middlewares/Authorization'
 
 const router = Router()
 
 // get all users
-router.get('/', UsersController.index)
+router.get('/', Authorization, UsersController.index)
 // get single user
-router.get('/:id', UsersController.show)
+router.get('/:id', Authorization, UsersController.show)
 // create new user
 router.post('/', UsersController.create)
 // auth user

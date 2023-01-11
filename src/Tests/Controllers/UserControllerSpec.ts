@@ -20,5 +20,4 @@ describe('Test users controller', (): void => {
     it('should have show method', (): void => {
         expect(UsersController.show).toBeDefined()
     })
-
 })

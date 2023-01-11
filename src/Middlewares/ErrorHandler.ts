@@ -7,12 +7,12 @@ import express from 'express'
  */
 const errorHandler = (
     error: Error,
-    request: express.Request,
+    _request: express.Request,
     response: express.Response,
     next: express.NextFunction
 ): void => {
     // return status bad request with error message
-    response.status(400).json(error.message)
+    response.status(400).json({"message": error.message})
 }
 
 export default errorHandler

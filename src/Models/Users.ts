@@ -22,7 +22,8 @@ export class userStore {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = 'SELECT id, first_name, last_name, email, user_name FROM users'
+            const sql =
+                'SELECT id, first_name, last_name, email, user_name FROM users'
             // send query to database
             const result = await connection.query(sql)
             // close database

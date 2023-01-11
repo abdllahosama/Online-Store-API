@@ -15,5 +15,4 @@ describe('Test products controller', (): void => {
     it('should have show method', (): void => {
         expect(ProductsController.show).toBeDefined()
     })
-
 })

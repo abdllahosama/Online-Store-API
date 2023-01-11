@@ -71,7 +71,7 @@ describe('Test user model', (): void => {
 
     // faid auth user return false
     it('auth method should return object', async (): Promise<void> => {
-        const auth = await store.auth('bad username','bad password')
+        const auth = await store.auth('bad username', 'bad password')
         expect(auth).toBeFalse()
     })
 
@@ -81,9 +81,8 @@ describe('Test user model', (): void => {
     })
 
     // check hasing result
-    it('hashPassword method should return string',  (): void => {
+    it('hashPassword method should return string', (): void => {
         const hashedPassword = userStore.hashPassword('123456789')
         expect(typeof hashedPassword == 'string').toBeTrue()
     })
-
 })

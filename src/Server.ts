@@ -19,7 +19,7 @@ app.use(errorHandler)
 // handel 404 request page
 app.get(
     '*',
-    function (request: express.Request, response: express.Response): void {
+    function (_request: express.Request, response: express.Response): void {
         response.status(404).json({
             status: 'faild',
             error: 'page not found',

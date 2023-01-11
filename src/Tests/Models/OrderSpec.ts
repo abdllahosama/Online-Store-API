@@ -53,12 +53,12 @@ describe('Test order model', (): void => {
         const product = await productModel.insert({
             name: 'new product',
             description: 'new description',
-            price: 20
+            price: 20,
         })
         const result = await store.addProductToOrder({
             order_id: order.id as number,
             product_id: product.id as number,
-            quantity: 3
+            quantity: 3,
         })
         expect(result).toBeTrue()
     })
@@ -83,10 +83,12 @@ describe('Test order model', (): void => {
         const completeOrder = await store.completeOrder(orderUser.id as number)
         expect(completeOrder).toBeTrue()
     })
-    
+
     // completedOrders order method returns array of orders
     it('openOrder method should return array of ordera', async (): Promise<void> => {
-        const completedOrders = await store.completedOrders(orderUser.id as number)
+        const completedOrders = await store.completedOrders(
+            orderUser.id as number
+        )
         expect(typeof completedOrders == 'object').toBeTrue()
     })
 
@@ -96,6 +98,4 @@ describe('Test order model', (): void => {
         const completedOrders = await store.showOrder(openOrder.id as number)
         expect(typeof completedOrders == 'object').toBeTrue()
     })
-
-
 })
