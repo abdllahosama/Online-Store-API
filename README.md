@@ -39,5 +39,51 @@ npm -v
 ```
  </li>
  
+  <li>
+scond you have to clone the project to your pc
+
+ </li>
  
+ <li>
+ now you have to install node modules using  the folloing command
+  
+  ```command
+  npm install
+  ```
+ </li>
+ 
+ <li>
+ now copy env example and add your environment data *dont forget to create dev and test database*
+ </li>
+ <li>
+ to start developing run
+```
+npm run dev
+```
+ </li>
+<li>
+to build project run 
+```
+npm run build
+```
+ </li>
+<li> 
+ to use prettier run
+```
+npm run prettier
+```
+ </li>
+<li>
+to use eslint run
+```
+npm run eslint
+```
+ </li>
+<li>
+to run unit tisting run
+```
+npm run test
+```
+  </li>
+
  </ol>
