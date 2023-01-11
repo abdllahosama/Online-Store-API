@@ -1,5 +1,5 @@
-import { order, orderStore, orderStatus } from '../../Models/Orders'
-import { product, productStore } from '../../Models/Products'
+import { orderStore } from '../../Models/Orders'
+import { productStore } from '../../Models/Products'
 import { user, userStore } from '../../Models/Users'
 
 const store = new orderStore()
