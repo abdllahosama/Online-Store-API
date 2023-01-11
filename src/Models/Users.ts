@@ -75,58 +75,11 @@ export class userStore {
         }
     }
 
-    /**
-     * this methoud update user in database
-     * @param id
-     * @param user
-     * @returns users
-     */
-    public update = async (id: number, user: user): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // hash password
-            const hashedPassword = userStore.hashPassword(user.password)
-            // connection query
-            const sql = `UPDATE users SET first_name='${user.first_name}', last_name='${user.last_name}', user_name='${user.user_name}', email='${user.email}', password='${hashedPassword}' WHERE id='${id}'`
-            // send query to database
-            await connection.query(sql)
-            // close database
-            connection.release()
-            // return true status
-            return true
-        } catch (error) {
-            throw new Error(`cant't update user: ${error}`)
-        }
-    }
-
-    /**
-     * thes method delete user from database
-     * @param id
-     */
-    public delete = async (id: number): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // connection query
-            const sql = `DELETE FROM users WHERE id='${id}'`
-            // send query to database
-            await connection.query(sql)
-            // close database
-            connection.release()
-            // return status
-            return true
-        } catch (error) {
-            throw new Error(`cant't delete user: ${error}`)
-        }
-    }
-
     public auth = async (
         user_name: string,
         password: string
-    ): Promise<user | null> => {
+    ): Promise<user | boolean> => {
         try {
-            console.log(user_name)
             // connect to database
             const connection = await client.connect()
             // connection query
@@ -135,7 +88,6 @@ export class userStore {
             const result = await connection.query(sql)
             // close database
             connection.release()
-            console.group(result)
             // check if user is exist
             if (result.rowCount) {
                 // check if matching password
@@ -149,7 +101,7 @@ export class userStore {
                 }
             }
             // if no user validate
-            return null
+            return false
         } catch (error) {
             throw new Error(`cant't auth user: ${error}`)
         }

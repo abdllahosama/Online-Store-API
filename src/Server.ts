@@ -11,7 +11,7 @@ const app = express()
 app.use(bodyParser.json())
 
 // append api routs
-app.use('/', routes)
+app.use('/api', routes)
 
 // handel error for user
 app.use(errorHandler)
@@ -31,3 +31,5 @@ app.get(
 app.listen(config.port, (): void => {
     console.log(`serve is running on port: ${config.port}`)
 })
+
+export default app

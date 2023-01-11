@@ -46,37 +46,6 @@ describe('Test product model', (): void => {
         expect(prod).toEqual(result)
     })
 
-    // check update product
-    it('should have update method', (): void => {
-        expect(store.update).toBeDefined()
-    })
+    
 
-    // update product return true status
-    it('update method should return success message', async (): Promise<void> => {
-        const product: product = {
-            name: 'product',
-            description: 'product description',
-            price: 20,
-        }
-        const result = await store.insert(product)
-        const deleteStatus = await store.update(result.id as number, result)
-        expect(deleteStatus).toBeTrue()
-    })
-
-    // check delete product
-    it('should have delete method', (): void => {
-        expect(store.delete).toBeDefined()
-    })
-
-    //delete product return true status
-    it('delete method should return success message', async (): Promise<void> => {
-        const product: product = {
-            name: 'product',
-            description: 'product description',
-            price: 20,
-        }
-        const result = await store.insert(product)
-        const deleteStatus = await store.delete(result.id as number)
-        expect(deleteStatus).toBeTrue()
-    })
 })

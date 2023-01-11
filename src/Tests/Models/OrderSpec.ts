@@ -1,12 +1,14 @@
 import { order, orderStore, orderStatus } from '../../Models/Orders'
+import { product, productStore } from '../../Models/Products'
 import { user, userStore } from '../../Models/Users'
 
 const store = new orderStore()
+const productModel = new productStore()
 let orderUser: user = {
-    firstName: 'abdallah',
-    lastName: 'osama',
+    first_name: 'abdallah',
+    last_name: 'osama',
     email: 'order@gmail.com',
-    userName: 'order',
+    user_name: 'order',
     password: '123456',
 }
 describe('Test order model', (): void => {
@@ -15,79 +17,85 @@ describe('Test order model', (): void => {
         orderUser = await userModel.insert(orderUser)
     })
 
-    // check index order
-    it('should have index method', (): void => {
-        expect(store.index).toBeDefined()
+    // check addProductToOrder order
+    it('should have addProductToOrder method', (): void => {
+        expect(store.addProductToOrder).toBeDefined()
     })
 
-    // check insert order
-    it('should have insert method', (): void => {
-        expect(store.insert).toBeDefined()
+    // check currntOrder order
+    it('should currntOrder insert method', (): void => {
+        expect(store.currntOrder).toBeDefined()
     })
 
-    // check show order
-    it('should have show method', (): void => {
-        expect(store.show).toBeDefined()
+    // check openOrder order
+    it('should have openOrder method', (): void => {
+        expect(store.openOrder).toBeDefined()
     })
 
-    // check update order
-    it('should have update method', (): void => {
-        expect(store.update).toBeDefined()
+    // check completeOrder order
+    it('should have completeOrder method', (): void => {
+        expect(store.completeOrder).toBeDefined()
     })
 
-    // check delete order
-    it('should have delete method', (): void => {
-        expect(store.delete).toBeDefined()
+    // check completedOrders order
+    it('should have completedOrders method', (): void => {
+        expect(store.completedOrders).toBeDefined()
     })
 
-    // index method returns object
-    it('index method should return list of orders', async (): Promise<void> => {
-        const result = await store.index()
+    // check showOrder order
+    it('should have showOrder method', (): void => {
+        expect(store.showOrder).toBeDefined()
+    })
+
+    // addProductToOrder method returns success
+    it('addProductToOrder method should return success', async (): Promise<void> => {
+        const order = await store.openOrder(orderUser.id as number)
+        const product = await productModel.insert({
+            name: 'new product',
+            description: 'new description',
+            price: 20
+        })
+        const result = await store.addProductToOrder({
+            order_id: order.id as number,
+            product_id: product.id as number,
+            quantity: 3
+        })
+        expect(result).toBeTrue()
+    })
+
+    // openOrder method returns new order
+    it('openOrder method should return new order', async (): Promise<void> => {
+        const result = await store.openOrder(orderUser.id as number)
         expect(typeof result == 'object').toBeTrue()
     })
-    // single user return object
-    it('insert method should return single order', async (): Promise<void> => {
-        const data: order = {
-            userId: orderUser.id as number,
-            status: orderStatus.active,
-        }
-        const result = await store.insert(data)
-        expect(typeof result == 'object').toBeTrue()
+
+    // currentOrder method returns order
+    it('currntOrder method should return new order', async (): Promise<void> => {
+        const openOrder = await store.openOrder(orderUser.id as number)
+        const currentOrder = await store.currntOrder(orderUser.id as number)
+        expect(typeof currentOrder == 'object').toBeTrue()
     })
 
-    // show order return exact order
-    it('show method should return single order', async (): Promise<void> => {
-        const data: order = {
-            userId: orderUser.id as number,
-            status: orderStatus.active,
-            orderProducts: [],
-        }
-        const result = await store.insert(data)
-        const prod = await store.show(result.id as number)
-        expect(prod).toEqual(result)
+    // completeOrderr method returns true
+    it('completeOrder method should return true', async (): Promise<void> => {
+        await store.openOrder(orderUser.id as number)
+        await store.currntOrder(orderUser.id as number)
+        const completeOrder = await store.completeOrder(orderUser.id as number)
+        expect(completeOrder).toBeTrue()
+    })
+    
+    // completedOrders order method returns array of orders
+    it('openOrder method should return array of ordera', async (): Promise<void> => {
+        const completedOrders = await store.completedOrders(orderUser.id as number)
+        expect(typeof completedOrders == 'object').toBeTrue()
     })
 
-    // update order return true status
-    it('update method should return success message', async (): Promise<void> => {
-        const data: order = {
-            userId: orderUser.id as number,
-            status: orderStatus.active,
-            orderProducts: [],
-        }
-        const result = await store.insert(data)
-        const updateStatus = await store.update(result.id as number, result)
-        expect(updateStatus).toBeTrue()
+    // showOrder order method returns order
+    it('showOrder method should return  order', async (): Promise<void> => {
+        const openOrder = await store.openOrder(orderUser.id as number)
+        const completedOrders = await store.showOrder(openOrder.id as number)
+        expect(typeof completedOrders == 'object').toBeTrue()
     })
 
-    //delete order return true status
-    it('delete method should return success message', async (): Promise<void> => {
-        const data: order = {
-            userId: orderUser.id as number,
-            status: orderStatus.active,
-            orderProducts: [],
-        }
-        const result = await store.insert(data)
-        const deleteStatus = await store.delete(result.id as number)
-        expect(deleteStatus).toBeTrue()
-    })
+
 })

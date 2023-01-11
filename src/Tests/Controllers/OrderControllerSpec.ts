@@ -1,28 +1,28 @@
 import OrdersController from '../../Controllers/OrdersController'
 
 describe('Test order controller', (): void => {
-    // check index order
-    it('should have index method', (): void => {
-        expect(OrdersController.index).toBeDefined()
+    // check selectProduct method
+    it('should have selectProduct method', (): void => {
+        expect(OrdersController.selectProduct).toBeDefined()
     })
 
-    // check create order
-    it('should have create method', (): void => {
-        expect(OrdersController.create).toBeDefined()
+    // check completeOrder method
+    it('should have currentOrder method', (): void => {
+        expect(OrdersController.currentOrder).toBeDefined()
     })
 
-    // check show order
-    it('should have show method', (): void => {
-        expect(OrdersController.show).toBeDefined()
+    // check completeOrder method
+    it('should have completeOrder method', (): void => {
+        expect(OrdersController.completeOrder).toBeDefined()
     })
 
-    // check update order
-    it('should have update method', (): void => {
-        expect(OrdersController.update).toBeDefined()
+    // check completedOrders method
+    it('should have completedOrders method', (): void => {
+        expect(OrdersController.completedOrders).toBeDefined()
     })
 
-    // check destroy order
-    it('should have destroy method', (): void => {
-        expect(OrdersController.destroy).toBeDefined()
+    // check showOrder method
+    it('should have showOrder method', (): void => {
+        expect(OrdersController.showOrder).toBeDefined()
     })
 })

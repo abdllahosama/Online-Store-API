@@ -14,7 +14,7 @@ export type orderProduct = {
     order_id: number
     product_id: number
     quantity: number
-    product: product
+    product?: product
 }
 
 // order type
@@ -28,25 +28,55 @@ export type order = {
 
 // order class
 export class orderStore {
+
     /**
-     * this method returns all orders
-     * @returns orders
+     * this method insert product to order
+     * @param orderProduct orderProduct
+     * @returns boolean
      */
-    public index = async (): Promise<order[]> => {
+        public addProductToOrder = async (orderProduct: orderProduct): Promise<boolean> => {
+            try {
+                // connect to database
+                const connection = await client.connect()
+                // connection query
+                const sql = `INSERT INTO order_products (order_id, product_id, quantity) VALUES ('${orderProduct.order_id}', '${orderProduct.product_id}', '${orderProduct.quantity}')` 
+                // send query to database
+                await connection.query(sql)
+                // close database
+                connection.release()
+                // return order data
+                return true
+            } catch (error) {
+                throw new Error(`can't inser order product: ${error}`)
+            }
+        }
+
+    /**
+     * this method get currnt order
+     * @param order
+     * @returns order
+     */
+    public currntOrder = async (user_id: number): Promise<order> => {
         try {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql =
-                'SELECT orders.id, orders.status, users.user_name as user FROM orders JOIN users ON orders.user_id = users.id'
+            const sql = `SELECT * FROM orders WHERE user_id='${user_id}' AND status='active' ORDER BY id DESC LIMIT 1`
             // send query to database
-            const result = await connection.query(sql)
+            let data = await connection.query(sql)
+            // get order productas
+            let currentOrder: order = data.rows[0]
+            if (currentOrder) {
+                const orderProductssql = `SELECT order_products.id, order_products.order_id, order_products.product_id, order_products.quantity, products.name as product_name FROM order_products JOIN products ON order_products.product_id = products.id Where order_products.order_id='${currentOrder.id}'`
+                const result = await connection.query(orderProductssql)
+                currentOrder.orderProducts = result.rows
+            }
             // close database
             connection.release()
-            // return order data
-            return result.rows
+            // return currnt order data
+            return currentOrder
         } catch (error) {
-            throw new Error(`can't get orders: ${error}`)
+            throw new Error(`can't get currnt order: ${error}`)
         }
     }
 
@@ -55,39 +85,16 @@ export class orderStore {
      * @param order
      * @returns order
      */
-    public insert = async (order: order): Promise<order> => {
+    public openOrder = async (user_id: number): Promise<order> => {
         try {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `INSERT INTO orders (user_id, status) VALUES ('${order.user_id}', '${order.status}') RETURNING *`
+            const sql = `INSERT INTO orders (user_id, status) VALUES ('${user_id}', 'active') RETURNING *`
             // send query to database
             let data = await connection.query(sql)
             // init new order
             let newOrder: order = data.rows[0]
-
-            //check if is set order products
-            if (order.orderProducts && order.orderProducts.length > 0) {
-                // init query
-                let productsSql: string = `INSERT INTO order_products (order_id, product_id, quantity) VALUES`
-                // build query by order products
-                order.orderProducts?.forEach((orderProduct, key) => {
-                    productsSql += `(${newOrder.id}, ${orderProduct.product_id}, ${orderProduct.quantity})`
-                    if (
-                        order.orderProducts &&
-                        order.orderProducts?.length != key + 1
-                    ) {
-                        productsSql += ','
-                    } else {
-                        productsSql += ' RETURNING *'
-                    }
-                })
-                // send query to database
-                let orderProducts = await connection.query(productsSql)
-                //put order products to order
-                newOrder.orderProducts = orderProducts.rows
-            }
-
             // close database
             connection.release()
             // return order data
@@ -98,11 +105,59 @@ export class orderStore {
     }
 
     /**
+     * this method complete order
+     * @returns boolean
+     */
+    public completeOrder = async (id: number): Promise<boolean> => {
+        try {
+            // connect to database
+            const connection = await client.connect()
+            // connection query
+            const sql = `UPDATE orders SET status='complete' WHERE id='${id}'`
+            // send query to database
+            const result = await connection.query(sql)
+            // close database
+            connection.release()
+            // return order data
+            return true
+        } catch (error) {
+            throw new Error(`can't get orders: ${error}`)
+        }
+    }
+
+    /**
+     * this method returns completed orders of user
+     * @returns orders
+     */
+    public completedOrders = async (id: number): Promise<order[]> => {
+        try {
+            // connect to database
+            const connection = await client.connect()
+            // connection query
+            const sql = `SELECT * FROM orders Where user_id=${id} AND status='complete' ORDER BY id DESC`
+            // send query to database
+            const result = await connection.query(sql)
+            // get each order products
+            result.rows.forEach(async(order: order): Promise<void> => {
+                const sql = `SELECT id, order_products.order_id, order_products.product_id, order_products.quantity, products.name as product_name FROM order_products JOIN products ON order_products.product_id = products.id Where order_products.order_id='${order.id}'`
+                const result = await connection.query(sql)
+                order.orderProducts = result.rows
+            })
+            // close database
+            connection.release()
+            // return order data
+            return result.rows
+        } catch (error) {
+            throw new Error(`can't get orders: ${error}`)
+        }
+    }
+
+    /**
      * this method get single order from database
      * @param id
      * @returns order
      */
-    public show = async (id: number): Promise<order> => {
+    public showOrder = async (id: number): Promise<order> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -127,53 +182,4 @@ export class orderStore {
         }
     }
 
-    /**
-     * this methoud update order in database
-     * @param id
-     * @param order
-     * @returns void
-     */
-    public update = async (id: number, order: order): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // connection query
-            const sql = `UPDATE orders SET user_id='${order.user_id}' WHERE id='${id}'`
-            // send query to database
-            const newOrder = await connection.query(sql)
-            //update order products
-            order.orderProducts?.forEach(async (orderProduct) => {
-                const productsSql = `UPDATE order_products SET product_id='${orderProduct.product_id}', quantity='${orderProduct.quantity}' WHERE id='${orderProduct.id}'`
-                await connection.query(productsSql)
-            })
-            // close database
-            connection.release()
-            // return true status
-            return true
-        } catch (error) {
-            throw new Error(`cant't update order: ${error}`)
-        }
-    }
-
-    /**
-     * thes method delete order from database
-     * @param id
-     * @returns void
-     */
-    public delete = async (id: number): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // connection query
-            const sql = `DELETE FROM order_products WHERE order_id='${id}';DELETE FROM orders WHERE id='${id}';`
-            // send query to database
-            await connection.query(sql)
-            // close database
-            connection.release()
-            // return true status
-            return true
-        } catch (error) {
-            throw new Error(`cant't delete order: ${error}`)
-        }
-    }
 }

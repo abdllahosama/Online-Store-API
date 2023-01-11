@@ -16,13 +16,4 @@ describe('Test products controller', (): void => {
         expect(ProductsController.show).toBeDefined()
     })
 
-    // check update product
-    it('should have update method', (): void => {
-        expect(ProductsController.update).toBeDefined()
-    })
-
-    // check destroy product
-    it('should have destroy method', (): void => {
-        expect(ProductsController.destroy).toBeDefined()
-    })
 })

@@ -18,13 +18,13 @@ describe('Test user model', (): void => {
         expect(store.insert).toBeDefined()
     })
 
-    // single user return object
+    // insert user return object
     it('insert method should return single user', async (): Promise<void> => {
         const user: user = {
-            firstName: 'abdallah',
-            lastName: 'osama',
+            first_name: 'abdallah',
+            last_name: 'osama',
             email: 'insert@gmail.com',
-            userName: 'insert',
+            user_name: 'insert',
             password: '123456',
         }
         const result = await store.insert(user)
@@ -39,10 +39,10 @@ describe('Test user model', (): void => {
     // show user return exact user
     it('show method should return single user', async (): Promise<void> => {
         const user: user = {
-            firstName: 'abdallah',
-            lastName: 'osama',
+            first_name: 'abdallah',
+            last_name: 'osama',
             email: 'show@gmail.com',
-            userName: 'show',
+            user_name: 'show',
             password: '123456',
         }
         const result = await store.insert(user)
@@ -50,41 +50,40 @@ describe('Test user model', (): void => {
         expect(prod).toEqual(result)
     })
 
-    // check update user
-    it('should have update method', (): void => {
-        expect(store.update).toBeDefined()
+    // check auth user
+    it('should have auth method', (): void => {
+        expect(store.auth).toBeDefined()
     })
 
-    // update user return true status
-    it('update method should return success message', async (): Promise<void> => {
+    // success auth user return object
+    it('auth method should return object on success', async (): Promise<void> => {
         const user: user = {
-            firstName: 'abdallah',
-            lastName: 'osama',
-            email: 'update@gmail.com',
-            userName: 'update',
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'auth@gmail.com',
+            user_name: 'auth',
             password: '123456',
         }
-        const result = await store.insert(user)
-        const updateStatus = await store.update(result.id as number, result)
-        expect(updateStatus).toBeTrue()
+        await store.insert(user)
+        const auth = await store.auth(user.user_name, user.password)
+        expect(typeof auth == 'object').toBeTrue()
     })
 
-    // check delete user
-    it('should have delete method', (): void => {
-        expect(store.delete).toBeDefined()
+    // faid auth user return false
+    it('auth method should return object', async (): Promise<void> => {
+        const auth = await store.auth('bad username','bad password')
+        expect(auth).toBeFalse()
     })
 
-    //delete user return true status
-    it('delete method should return success message', async (): Promise<void> => {
-        const user: user = {
-            firstName: 'abdallah',
-            lastName: 'osama',
-            email: 'delete@gmail.com',
-            userName: 'delete',
-            password: '123456',
-        }
-        const result = await store.insert(user)
-        const deleteStatus = await store.delete(result.id as number)
-        expect(deleteStatus).toBeTrue()
+    //  check hashPassword
+    it('should have hashPassword method', (): void => {
+        expect(userStore.hashPassword).toBeDefined()
     })
+
+    // check hasing result
+    it('hashPassword method should return string',  (): void => {
+        const hashedPassword = userStore.hashPassword('123456789')
+        expect(typeof hashedPassword == 'string').toBeTrue()
+    })
+
 })

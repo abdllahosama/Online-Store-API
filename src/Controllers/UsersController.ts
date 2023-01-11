@@ -10,7 +10,7 @@ class UsersController {
      * @param response
      */
     public static index = async (
-        request: Request,
+        _request: Request,
         response: Response
     ): Promise<void> => {
         try {
