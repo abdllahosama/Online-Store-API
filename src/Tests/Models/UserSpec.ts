@@ -7,15 +7,25 @@ describe('Test user model', (): void => {
         expect(store.index).toBeDefined()
     })
 
+    // check insert user
+    it('should have insert method', (): void => {
+        expect(store.insert).toBeDefined()
+    })
+
+    // check show user
+    it('should have show method', (): void => {
+        expect(store.show).toBeDefined()
+    })
+
+    // check auth user
+    it('should have auth method', (): void => {
+        expect(store.auth).toBeDefined()
+    })
+
     // index method returns object
     it('index method should return list of users', async (): Promise<void> => {
         const result = await store.index()
         expect(typeof result == 'object').toBeTrue()
-    })
-
-    // check insert user
-    it('should have insert method', (): void => {
-        expect(store.insert).toBeDefined()
     })
 
     // insert user return object
@@ -31,11 +41,6 @@ describe('Test user model', (): void => {
         expect(typeof result == 'object').toBeTrue()
     })
 
-    // check show user
-    it('should have show method', (): void => {
-        expect(store.show).toBeDefined()
-    })
-
     // show user return exact user
     it('show method should return single user', async (): Promise<void> => {
         const user: user = {
@@ -48,11 +53,6 @@ describe('Test user model', (): void => {
         const result = await store.insert(user)
         const prod = await store.show(result.id as number)
         expect(prod).toEqual(result)
-    })
-
-    // check auth user
-    it('should have auth method', (): void => {
-        expect(store.auth).toBeDefined()
     })
 
     // success auth user return object
@@ -70,19 +70,8 @@ describe('Test user model', (): void => {
     })
 
     // faid auth user return false
-    it('auth method should return object', async (): Promise<void> => {
+    it('auth method should return false', async (): Promise<void> => {
         const auth = await store.auth('bad username', 'bad password')
         expect(auth).toBeFalse()
-    })
-
-    //  check hashPassword
-    it('should have hashPassword method', (): void => {
-        expect(userStore.hashPassword).toBeDefined()
-    })
-
-    // check hasing result
-    it('hashPassword method should return string', (): void => {
-        const hashedPassword = userStore.hashPassword('123456789')
-        expect(typeof hashedPassword == 'string').toBeTrue()
     })
 })

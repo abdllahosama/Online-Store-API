@@ -7,15 +7,20 @@ describe('Test product model', (): void => {
         expect(store.index).toBeDefined()
     })
 
-    // index method returns object
-    it('index method should return list of products', async (): Promise<void> => {
-        const result = await store.index()
-        expect(typeof result == 'object').toBeTrue()
+    // check show product
+    it('should have show method', (): void => {
+        expect(store.show).toBeDefined()
     })
 
     // check insert product
     it('should have insert method', (): void => {
         expect(store.insert).toBeDefined()
+    })
+
+    // index method returns object
+    it('index method should return list of products', async (): Promise<void> => {
+        const result = await store.index()
+        expect(typeof result == 'object').toBeTrue()
     })
 
     // single product return object
@@ -27,11 +32,6 @@ describe('Test product model', (): void => {
         }
         const result = await store.insert(product)
         expect(typeof result == 'object').toBeTrue()
-    })
-
-    // check show product
-    it('should have show method', (): void => {
-        expect(store.show).toBeDefined()
     })
 
     // show product return exact product

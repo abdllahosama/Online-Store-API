@@ -12,8 +12,11 @@ class ProductsController {
         response: Response
     ): Promise<void> => {
         try {
+            // init product model
             const store = new productStore()
+            // get product
             const data = await store.index()
+            // success get products
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't get products: ${error}`)
@@ -21,7 +24,7 @@ class ProductsController {
     }
 
     /**
-     * this method show product
+     * this method show single product
      * @param request
      * @param response
      */
@@ -30,8 +33,11 @@ class ProductsController {
         response: Response
     ): Promise<void> => {
         try {
+            // init product model
             const store = new productStore()
+            // get single product
             const data = await store.show(parseInt(request.params.id))
+            // success return product
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't show product: ${error}`)
@@ -48,8 +54,11 @@ class ProductsController {
         response: Response
     ): Promise<void> => {
         try {
+            // init product model
             const store = new productStore()
+            // create product
             const data = await store.insert(request.body)
+            // succsess product
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't create product: ${error}`)

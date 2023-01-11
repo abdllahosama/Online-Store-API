@@ -1,10 +1,17 @@
-import Jwt from "jsonwebtoken"
-import { user } from "../Models/Users"
+import Jwt from 'jsonwebtoken'
+import { user } from '../Models/Users'
+import bcrypt from 'bcrypt'
+import config from '../Config'
+
+/**
+ * this methd return user from jwt
+ * @param token
+ * @returns user user
+ */
 const getUserData = (token: string): user => {
     try {
-        const tokentParams = token.split(' ')[0].toLowerCase()
         const tokenData = token.split(' ')[1]
-        const userData = Jwt.decode(tokenData) 
+        const userData = Jwt.decode(tokenData)
         if (typeof userData === 'object') {
             return userData?.user
         }
@@ -13,4 +20,17 @@ const getUserData = (token: string): user => {
         throw new Error('pleas login first')
     }
 }
-export default getUserData
+
+/**
+ * this methd just hash password
+ * @param password
+ * @returns hashed password
+ */
+const hashPassword = (password: string): string => {
+    return bcrypt.hashSync(
+        password + config.encriptPassword,
+        parseInt(config.slatRounds as string)
+    )
+}
+
+export default { getUserData, hashPassword }

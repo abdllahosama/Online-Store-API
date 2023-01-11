@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
 import { userStore } from '../Models/Users'
-import jwt from 'jsonwebtoken'
-import config from '../Config'
 
 class UsersController {
     /**
@@ -14,8 +12,11 @@ class UsersController {
         response: Response
     ): Promise<void> => {
         try {
+            // init user model
             const store = new userStore()
+            // get all users
             const data = await store.index()
+            // return success users
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't get users: ${error}`)
@@ -32,8 +33,11 @@ class UsersController {
         response: Response
     ): Promise<void> => {
         try {
+            // init user model
             const store = new userStore()
+            // get single user
             const data = await store.show(parseInt(request.params.id))
+            // success get uder
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't show user: ${error}`)
@@ -50,41 +54,14 @@ class UsersController {
         response: Response
     ): Promise<void> => {
         try {
+            // init user model
             const store = new userStore()
+            // create new user
             const data = await store.insert(request.body)
-
+            // return success user
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't create user: ${error}`)
-        }
-    }
-
-    public static auth = async (
-        request: Request,
-        response: Response
-    ): Promise<void> => {
-        try {
-            const store = new userStore()
-            const { user_name, password } = request.body
-            const user = await store.auth(user_name, password)
-
-            if (user) {
-                const token = jwt.sign({ user }, config.jwtPassword as string)
-                response.status(200).json({
-                    status: 'success',
-                    data: {
-                        user: user,
-                        token: token,
-                    },
-                })
-            } else {
-                response.status(401).json({
-                    status: 'error',
-                    data: 'error in user name or password',
-                })
-            }
-        } catch (error) {
-            throw new Error(`cant't auth: ${error}`)
         }
     }
 }

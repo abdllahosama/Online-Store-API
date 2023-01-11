@@ -2,6 +2,7 @@ import { Router } from 'express'
 import OrdersController from '../Controllers/OrdersController'
 import Authorization from '../Middlewares/Authorization'
 
+// configrate routes
 const router = Router()
 
 // select product

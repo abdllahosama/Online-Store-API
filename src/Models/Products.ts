@@ -53,6 +53,11 @@ export class productStore {
         }
     }
 
+    /**
+     * this method show single product
+     * @param int id
+     * @returns product
+     */
     public show = async (id: number): Promise<product> => {
         try {
             // connect to database

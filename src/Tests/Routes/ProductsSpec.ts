@@ -5,6 +5,8 @@ import { product, productStore } from '../../Models/Products'
 const store = new productStore()
 const request = supertest(app)
 
+let token: string = ''
+
 describe('Test products api response', (): void => {
     // check all products end point
     it('check all products endpoint', async (): Promise<void> => {
@@ -36,6 +38,7 @@ describe('Test products api response', (): void => {
             .send(product)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
+            .set('Authorization', token)
         expect(responce.status).toBe(200)
     })
 })

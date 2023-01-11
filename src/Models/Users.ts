@@ -1,6 +1,7 @@
 import client from '../Database'
 import config from '../Config'
 import bcrypt from 'bcrypt'
+import UserUtilities from '../Utilities/User'
 // user type
 export type user = {
     id?: number
@@ -45,7 +46,7 @@ export class userStore {
             // connect to database
             const connection = await client.connect()
             // hash password
-            const hashedPassword = userStore.hashPassword(user.password)
+            const hashedPassword = UserUtilities.hashPassword(user.password)
             // connection query
             const sql = `INSERT INTO users (first_name, last_name, email, user_name, password) VALUES ('${user.first_name}', '${user.last_name}', '${user.email}', '${user.user_name}', '${hashedPassword}') RETURNING id, first_name, last_name, email, user_name`
             // send query to database
@@ -59,6 +60,11 @@ export class userStore {
         }
     }
 
+    /**
+     * this method show single user
+     * @param id
+     * @returns user
+     */
     public show = async (id: number): Promise<user> => {
         try {
             // connect to database
@@ -76,6 +82,12 @@ export class userStore {
         }
     }
 
+    /**
+     * this method auth user
+     * @param user_name
+     * @param password
+     * @returns user | boolean
+     */
     public auth = async (
         user_name: string,
         password: string
@@ -106,16 +118,5 @@ export class userStore {
         } catch (error) {
             throw new Error(`cant't auth user: ${error}`)
         }
-    }
-    /**
-     * this static methd just hash password
-     * @param password
-     * @returns hashed password
-     */
-    public static hashPassword = (password: string): string => {
-        return bcrypt.hashSync(
-            password + config.encriptPassword,
-            parseInt(config.slatRounds as string)
-        )
     }
 }
