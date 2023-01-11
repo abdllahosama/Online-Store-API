@@ -34,7 +34,7 @@
  <li>
 first off all you have to check your node using following
 
-```
+```command
 npm -v
 ```
  </li>
