@@ -1,6 +1,5 @@
 import OrdersController from '../../Controllers/OrdersController'
 
-
 describe('Test order controller', (): void => {
     // check index order
     it('should have index method', (): void => {

@@ -50,7 +50,7 @@ class OrdersController {
         try {
             const store = new orderStore()
             const order: order = {
-                userId: request.body.userId,
+                user_id: request.body.userId,
                 status: request.body.status,
                 orderProducts: request.body.orderProducts,
             }
@@ -74,7 +74,7 @@ class OrdersController {
         try {
             const store = new orderStore()
             const order: order = {
-                userId: request.body.userId,
+                user_id: request.body.userId,
                 status: request.body.status,
                 orderProducts: request.body.orderProducts,
             }

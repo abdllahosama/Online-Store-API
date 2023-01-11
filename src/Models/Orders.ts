@@ -149,7 +149,7 @@ export class orderStore {
             // close database
             connection.release()
             // return true status
-            return true;
+            return true
         } catch (error) {
             throw new Error(`cant't update order: ${error}`)
         }
@@ -171,7 +171,7 @@ export class orderStore {
             // close database
             connection.release()
             // return true status
-            return true;
+            return true
         } catch (error) {
             throw new Error(`cant't delete order: ${error}`)
         }

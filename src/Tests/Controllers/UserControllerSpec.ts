@@ -1,6 +1,5 @@
 import UsersController from '../../Controllers/UsersController'
 
-
 describe('Test users controller', (): void => {
     // check index user
     it('should have index method', (): void => {

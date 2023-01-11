@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { product, productStore } from '../Models/Products'
+import { productStore } from '../Models/Products'
 
 class ProductsController {
     /**
@@ -8,7 +8,7 @@ class ProductsController {
      * @param response
      */
     public static index = async (
-        request: Request,
+        _request: Request,
         response: Response
     ): Promise<void> => {
         try {
@@ -49,66 +49,10 @@ class ProductsController {
     ): Promise<void> => {
         try {
             const store = new productStore()
-            const product: product = {
-                name: request.body.name,
-                description: request.body.description,
-                price: request.body.price,
-            }
-
-            const data = await store.insert(product)
-
+            const data = await store.insert(request.body)
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't create product: ${error}`)
-        }
-    }
-
-    /**
-     * this method update product
-     * @param request
-     * @param response
-     */
-    public static update = async (
-        request: Request,
-        response: Response
-    ): Promise<void> => {
-        try {
-            const store = new productStore()
-            const product: product = {
-                name: request.body.name,
-                description: request.body.description,
-                price: request.body.price,
-            }
-
-            const data = await store.update(
-                parseInt(request.params.id),
-                product
-            )
-
-            response.status(200).json({ status: 'success', data: data })
-        } catch (error) {
-            throw new Error(`cant't update product: ${error}`)
-        }
-    }
-
-    /**
-     * this method delete product
-     * @param request
-     * @param response
-     */
-    public static destroy = async (
-        request: Request,
-        response: Response
-    ): Promise<void> => {
-        try {
-            const store = new productStore()
-            await store.delete(parseInt(request.params.id))
-            response.status(200).json({
-                status: 'success',
-                data: 'product deleted successfuly',
-            })
-        } catch (error) {
-            throw new Error(`cant't delete product: ${error}`)
         }
     }
 }

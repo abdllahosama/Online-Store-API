@@ -4,10 +4,10 @@ import bcrypt from 'bcrypt'
 // user type
 export type user = {
     id?: number
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     email: string
-    userName: string
+    user_name: string
     password: string
 }
 
@@ -22,7 +22,7 @@ export class userStore {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = 'SELECT * FROM users'
+            const sql = 'SELECT id, first_name, last_name, email, user_name FROM users'
             // send query to database
             const result = await connection.query(sql)
             // close database
@@ -46,7 +46,7 @@ export class userStore {
             // hash password
             const hashedPassword = userStore.hashPassword(user.password)
             // connection query
-            const sql = `INSERT INTO users (first_name, last_name, email, user_name, password) VALUES ('${user.firstName}', '${user.lastName}', '${user.email}', '${user.userName}', '${hashedPassword}') RETURNING id, first_name, last_name, email, user_name`
+            const sql = `INSERT INTO users (first_name, last_name, email, user_name, password) VALUES ('${user.first_name}', '${user.last_name}', '${user.email}', '${user.user_name}', '${hashedPassword}') RETURNING id, first_name, last_name, email, user_name`
             // send query to database
             const result = await connection.query(sql)
             // close database
@@ -63,7 +63,7 @@ export class userStore {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `SELECT id, first_name, last_name, email, user_name FROM users WHERE id = ${id}`
+            const sql = `SELECT id, first_name, last_name, email, user_name FROM users WHERE id = '${id}'`
             // send query to database
             const result = await connection.query(sql)
             // close database
@@ -88,7 +88,7 @@ export class userStore {
             // hash password
             const hashedPassword = userStore.hashPassword(user.password)
             // connection query
-            const sql = `UPDATE users SET first_name='${user.firstName}', last_name='${user.lastName}', user_name='${user.userName}', email='${user.email}', password='${hashedPassword}' WHERE id='${id}'`
+            const sql = `UPDATE users SET first_name='${user.first_name}', last_name='${user.last_name}', user_name='${user.user_name}', email='${user.email}', password='${hashedPassword}' WHERE id='${id}'`
             // send query to database
             await connection.query(sql)
             // close database
@@ -122,19 +122,20 @@ export class userStore {
     }
 
     public auth = async (
-        userName: string,
+        user_name: string,
         password: string
     ): Promise<user | null> => {
         try {
+            console.log(user_name)
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `SELECT id, password FROM users WHERE user_name='${userName}'`
+            const sql = `SELECT id, password FROM users WHERE user_name='${user_name}'`
             // send query to database
             const result = await connection.query(sql)
             // close database
             connection.release()
-
+            console.group(result)
             // check if user is exist
             if (result.rowCount) {
                 // check if matching password

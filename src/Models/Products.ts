@@ -69,48 +69,4 @@ export class productStore {
             throw new Error(`cant't get product: ${error}`)
         }
     }
-
-    /**
-     * this methoud update product in database
-     * @param id
-     * @param product
-     * @returns products
-     */
-    public update = async (id: number, product: product): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // connection query
-            const sql = `UPDATE products SET name='${product.name}', description='${product.description}', price='${product.price}' WHERE id=${id}`
-            // send query to database
-            await connection.query(sql)
-            // close database
-            connection.release()
-            //return status
-            return true
-        } catch (error) {
-            throw new Error(`cant't update product: ${error}`)
-        }
-    }
-
-    /**
-     * thes method delete product from database
-     * @param id
-     */
-    public delete = async (id: number): Promise<boolean> => {
-        try {
-            // connect to database
-            const connection = await client.connect()
-            // connection query
-            const sql = `DELETE FROM products WHERE id=${id}`
-            // send query to database
-            await connection.query(sql)
-            // close database
-            connection.release()
-            // return status
-            return true
-        } catch (error) {
-            throw new Error(`cant't delete product: ${error}`)
-        }
-    }
 }

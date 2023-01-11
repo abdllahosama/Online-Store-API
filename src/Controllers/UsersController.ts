@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { user, userStore } from '../Models/Users'
+import { userStore } from '../Models/Users'
 import jwt from 'jsonwebtoken'
 import config from '../Config'
 
@@ -51,66 +51,11 @@ class UsersController {
     ): Promise<void> => {
         try {
             const store = new userStore()
-            const user: user = {
-                firstName: request.body.firstName,
-                lastName: request.body.lastName,
-                email: request.body.email,
-                userName: request.body.userName,
-                password: request.body.password,
-            }
-
-            const data = await store.insert(user)
+            const data = await store.insert(request.body)
 
             response.status(200).json({ status: 'success', data: data })
         } catch (error) {
             throw new Error(`cant't create user: ${error}`)
-        }
-    }
-
-    /**
-     * this method update user
-     * @param request
-     * @param response
-     */
-    public static update = async (
-        request: Request,
-        response: Response
-    ): Promise<void> => {
-        try {
-            const store = new userStore()
-            const user: user = {
-                firstName: request.body.firstName,
-                lastName: request.body.lastName,
-                email: request.body.email,
-                userName: request.body.userName,
-                password: request.body.password,
-            }
-
-            const data = await store.update(parseInt(request.params.id), user)
-
-            response.status(200).json({ status: 'success', data: data })
-        } catch (error) {
-            throw new Error(`cant't update user: ${error}`)
-        }
-    }
-
-    /**
-     * this method delete user
-     * @param request
-     * @param response
-     */
-    public static destroy = async (
-        request: Request,
-        response: Response
-    ): Promise<void> => {
-        try {
-            const store = new userStore()
-            await store.delete(parseInt(request.params.id))
-            response
-                .status(200)
-                .json({ status: 'success', data: 'user deleted successfuly' })
-        } catch (error) {
-            throw new Error(`cant't delete user: ${error}`)
         }
     }
 
@@ -120,8 +65,8 @@ class UsersController {
     ): Promise<void> => {
         try {
             const store = new userStore()
-            const { userName, password } = request.body
-            const user = await store.auth(userName, password)
+            const { user_name, password } = request.body
+            const user = await store.auth(user_name, password)
 
             if (user) {
                 const token = jwt.sign({ user }, config.jwtPassword as string)
@@ -135,7 +80,7 @@ class UsersController {
             } else {
                 response.status(401).json({
                     status: 'error',
-                    data: 'error in email or password',
+                    data: 'error in user name or password',
                 })
             }
         } catch (error) {

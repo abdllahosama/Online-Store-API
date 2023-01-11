@@ -1,6 +1,5 @@
 import ProductsController from '../../Controllers/ProductsController'
 
-
 describe('Test products controller', (): void => {
     // check index product
     it('should have index method', (): void => {

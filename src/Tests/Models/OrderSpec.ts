@@ -12,7 +12,7 @@ let orderUser: user = {
 describe('Test order model', (): void => {
     beforeAll(async (): Promise<void> => {
         const userModel = new userStore()
-        orderUser  = await userModel.insert(orderUser)
+        orderUser = await userModel.insert(orderUser)
     })
 
     // check index order
@@ -49,7 +49,7 @@ describe('Test order model', (): void => {
     it('insert method should return single order', async (): Promise<void> => {
         const data: order = {
             userId: orderUser.id as number,
-            status: orderStatus.active
+            status: orderStatus.active,
         }
         const result = await store.insert(data)
         expect(typeof result == 'object').toBeTrue()
@@ -60,7 +60,7 @@ describe('Test order model', (): void => {
         const data: order = {
             userId: orderUser.id as number,
             status: orderStatus.active,
-            orderProducts: []
+            orderProducts: [],
         }
         const result = await store.insert(data)
         const prod = await store.show(result.id as number)
@@ -72,7 +72,7 @@ describe('Test order model', (): void => {
         const data: order = {
             userId: orderUser.id as number,
             status: orderStatus.active,
-            orderProducts: []
+            orderProducts: [],
         }
         const result = await store.insert(data)
         const updateStatus = await store.update(result.id as number, result)
@@ -84,7 +84,7 @@ describe('Test order model', (): void => {
         const data: order = {
             userId: orderUser.id as number,
             status: orderStatus.active,
-            orderProducts: []
+            orderProducts: [],
         }
         const result = await store.insert(data)
         const deleteStatus = await store.delete(result.id as number)
