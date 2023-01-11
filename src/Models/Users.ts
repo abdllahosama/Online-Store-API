@@ -1,4 +1,4 @@
-import client from "../database"
+import client from "../Database"
 import config from "../Config"
 import bcrypt from 'bcrypt'
 // user type
@@ -83,7 +83,7 @@ export class userStore {
      * @param user 
      * @returns users
      */
-    public update = async (id: number, user: user): Promise<user> => {
+    public update = async (id: number, user: user): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -95,8 +95,8 @@ export class userStore {
             await connection.query(sql)
             // close database
             connection.release()
-            // return user data
-            return user
+            // return true status
+            return true
         } catch (error) {
             throw new Error(`cant't update user: ${error}`)
         }
@@ -106,7 +106,7 @@ export class userStore {
      * thes method delete user from database
      * @param id 
      */
-    public delete = async (id: number): Promise<void> => {
+    public delete = async (id: number): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -116,6 +116,8 @@ export class userStore {
             await connection.query(sql)
             // close database
             connection.release()
+            // return status
+            return true
         } catch (error) {
             throw new Error(`cant't delete user: ${error}`)
         }

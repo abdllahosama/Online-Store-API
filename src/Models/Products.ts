@@ -1,4 +1,4 @@
-import client from "../database"
+import client from "../Database"
 
 // product type
 export type product = {
@@ -43,13 +43,13 @@ export class productStore {
             // connect to database
             const connection = await client.connect()
             // connection query
-            const sql = `INSERT INTO products (name, description, price) VALUES ('${product.name}', '${product.description}', '${product.price}')`
+            const sql = `INSERT INTO products (name, description, price) VALUES ('${product.name}', '${product.description}', '${product.price}')  RETURNING *`
             // send query to database
-            await connection.query(sql)
+            const result = await connection.query(sql)
             // close database
             connection.release()
             // return product data
-            return product;
+            return result.rows[0];
         } catch (error) {
             throw new Error(`can't inser product: ${error}`)
         }
@@ -78,7 +78,7 @@ export class productStore {
      * @param product 
      * @returns products
      */
-    public update = async (id: number, product: product): Promise<product> => {
+    public update = async (id: number, product: product): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -88,8 +88,8 @@ export class productStore {
             await connection.query(sql)
             // close database
             connection.release()
-            // return product data
-            return product
+            //return status
+            return true;
         } catch (error) {
             throw new Error(`cant't update product: ${error}`)
         }
@@ -99,7 +99,7 @@ export class productStore {
      * thes method delete product from database
      * @param id 
      */
-    public delete = async (id: number): Promise<void> => {
+    public delete = async (id: number): Promise<boolean> => {
         try {
             // connect to database
             const connection = await client.connect()
@@ -109,6 +109,8 @@ export class productStore {
             await connection.query(sql)
             // close database
             connection.release()
+            // return status 
+            return true;
         } catch (error) {
             throw new Error(`cant't delete product: ${error}`)
         }

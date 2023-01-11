@@ -1,9 +1,6 @@
 import { Pool } from 'pg'
 import config from './Config'
 
-// log environment
-console.log('your environment:' + config.ENV)
-
 // init database client
 let client: Pool = new Pool()
 
@@ -15,10 +12,10 @@ if (config.ENV === 'dev') {
         user: config.dbUser,
         password: config.dbPassword,
     })
-}
+
 
 // connect for testing
-if (config.ENV === 'test') {
+} else {
     client = new Pool({
         host: config.dbHost,
         database: config.dbTest,

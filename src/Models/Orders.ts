@@ -1,4 +1,4 @@
-import client from "../database"
+import client from "../Database"
 import {user} from "./Users"
 import {product} from "./Products"
 
