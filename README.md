@@ -60,9 +60,9 @@ scond you have to clone the project to your pc
    <li>
     first you have to create user runing
     
-    ```
+    
     CREATE USER 'postgres' WITH PASSWORD '123456'
-    ```
+    
    </li>
   </ul>
  </li>
