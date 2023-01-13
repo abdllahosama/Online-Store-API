@@ -47,40 +47,46 @@ scond you have to clone the project to your pc
  <li>
  now you have to install node modules using  the folloing command
   
-  ```command
+  ```sh
   npm install
   ```
  </li>
  
  <li>
- now copy env example and add your environment data *dont forget to create dev and test database*
+  now you need to install new tow database one for dev and another for test you can call them <strong>store_dev</strong> and <strong>store_test</strong>
+  
+  you can use
+ </li>
+ 
+  <li>
+ now copy env example and add your environment data 
  </li>
  
  <li>
  to start developing run
   
-```command
+```sh
 npm run dev
 ```
  </li>
 <li>
 to build project run 
  
-```command
+```sh
 npm run build
 ```
  </li>
 <li> 
  to use prettier run
  
-```command
+```sh
 npm run prettier
 ```
  </li>
 <li>
 to use eslint run
  
-```command
+```sh
 npm run eslint
 ```
  </li>
