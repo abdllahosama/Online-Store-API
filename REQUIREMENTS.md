@@ -20,22 +20,30 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Current Order by user (args: user id)[token required]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
-## Data Shapes
-#### Product
--  id
-- name
-- price
-- [OPTIONAL] category
 
-#### User
-- id
-- firstName
-- lastName
-- password
+## Data Shapes
+
+#### Products
+-  id integer not null primary key 
+- name character varyong(100)
+- description text
+- price integer
+
+#### Users
+- id integer not null primary key 
+- first_name character varying(100) not null
+- last_name character varying(100) not null
+- email character varying(50) not null
+- user_name character varying(50) not null
+- password character varying(255) not null
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- id integer not null primary key 
+- user_id integer not null FOREIGN KEY REFERENCES users(id)
+- status enum (active, complete)
+
+### Order_products
+- id integer not null primary key 
+- order_id integer not null FOREIGN KEY REFERENCES orders(id)
+- product_id integer not null  FOREIGN KEY REFERENCES products(id)
+- quantity integer not null
