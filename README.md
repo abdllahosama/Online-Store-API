@@ -34,7 +34,7 @@
  <li>
 first off all you have to check your node using following
 
-```command
+```bash
 npm -v
 ```
  </li>
@@ -47,7 +47,7 @@ scond you have to clone the project to your pc
  <li>
  now you have to install node modules using  the folloing command
   
-  ```sh
+  ```bash
   npm install
   ```
  </li>
@@ -85,23 +85,18 @@ scond you have to clone the project to your pc
   now copy env example data to new file call <strong>.env</strong> and add your environment data or you can use this data and add your variables
   ***note***
   you can change port and database port using .env file default value for db port is <strong>"5432"</strong>
+  
   ```
   ENV="dev"
-
   port="4000"
-
   dbHost="127.0.0.1"
   dbName="store_dev"
   dbUser="postgres"
   dbPassword="123456"
   dbPort="5432"
-
   dbTest="store_test"
-
-
   encriptPassword="hard-to-find"
   slatRounds="10"
-
   jwtPassword="hard-password"
   ```
  </li>
@@ -109,35 +104,35 @@ scond you have to clone the project to your pc
  <li>
  to start developing run
   
-```sh
+```bash
 npm run dev
 ```
  </li>
 <li>
 to build project run 
  
-```sh
+```bash
 npm run build
 ```
  </li>
 <li> 
  to use prettier run
  
-```sh
+```bash
 npm run prettier
 ```
  </li>
 <li>
 to use eslint run
  
-```sh
+```bash
 npm run eslint
 ```
  </li>
 <li>
 to run unit tisting run
  
-```command
+```bash
 npm run test
 ```
   </li>
