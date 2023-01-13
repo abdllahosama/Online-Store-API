@@ -53,22 +53,36 @@ scond you have to clone the project to your pc
  </li>
  
  <li>
-  now you need to install new tow database one for dev and publish and another for test you can call them <strong>store</strong> and <strong>store_test</strong>
+  now you need to install new tow database one for dev and publish and another for test you can call them <strong>store_dev</strong> and <strong>store_test</strong>
   
   you can use psql shell as follow: 
   <ul>
    <li>
     first you have to create user runing
     
-    
     CREATE USER 'postgres' WITH PASSWORD '123456'
+    
+   </li>
+   <li>
+    Second  you have to create tow database
+    
+    CREATE DATABASE 'store_dev';
+    CREATE DATABASE 'store_test';
+    
+   </li>
+   
+   <li>
+    third  you have to connect databases with user
+    
+    GRANT ALL PRIVILEGES ON DATABASE 'store_dev' TO 'postgres';
+    GRANT ALL PRIVILEGES ON DATABASE 'store_test' TO 'postgres';
     
    </li>
   </ul>
  </li>
  
-  <li>
- now copy env example and add your environment data 
+ <li>
+   now copy env example and add your environment data 
  </li>
  
  <li>
