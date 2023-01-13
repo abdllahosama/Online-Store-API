@@ -82,7 +82,28 @@ scond you have to clone the project to your pc
  </li>
  
  <li>
-   now copy env example and add your environment data 
+  now copy env example data to new file call <strong>.env</strong> and add your environment data or you can use this data and add your variables
+  ***note***
+  you can change port and database port using .env file default value for db port is <strong>"5432"</strong>
+  ```
+  ENV="dev"
+
+  port="4000"
+
+  dbHost="127.0.0.1"
+  dbName="store_dev"
+  dbUser="postgres"
+  dbPassword="123456"
+  dbPort="5432"
+
+  dbTest="store_test"
+
+
+  encriptPassword="hard-to-find"
+  slatRounds="10"
+
+  jwtPassword="hard-password"
+  ```
  </li>
  
  <li>
