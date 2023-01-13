@@ -83,7 +83,9 @@ scond you have to clone the project to your pc
  
  <li>
   now copy env example data to new file call <strong>.env</strong> and add your environment data or you can use this data and add your variables
+  <br>
   ***note***
+  <br>
   you can change port and database port using .env file default value for db port is <strong>"5432"</strong>
   
   ```
