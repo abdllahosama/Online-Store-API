@@ -6,6 +6,7 @@
         "user": { "ENV" : "dbUser" },
         "password" : { "ENV" : "dbPassword" },
         "database": { "ENV" : "dbName" },
+        "port": { "ENV" : "dbPort" },
         "driver": "postgres",
         "multipleStatements": true
     },
@@ -15,6 +16,7 @@
         "user": { "ENV" : "dbUser" },
         "password" : { "ENV" : "dbPassword" },
         "database": { "ENV" : "dbTest" },
+        "port": { "ENV" : "dbPort" },
         "driver": "postgres",
         "multipleStatements": true
     }

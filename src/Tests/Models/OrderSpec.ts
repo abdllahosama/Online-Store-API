@@ -4,19 +4,8 @@ import { user, userStore } from '../../Models/Users'
 
 const store = new orderStore()
 const productModel = new productStore()
-let orderUser: user = {
-    first_name: 'abdallah',
-    last_name: 'osama',
-    email: 'order@gmail.com',
-    user_name: 'order',
-    password: '123456',
-}
-describe('Test order model', (): void => {
-    beforeAll(async (): Promise<void> => {
-        const userModel = new userStore()
-        orderUser = await userModel.insert(orderUser)
-    })
 
+describe('Test order model', (): void => {
     // check addProductToOrder order
     it('should have addProductToOrder method', (): void => {
         expect(store.addProductToOrder).toBeDefined()
@@ -49,6 +38,16 @@ describe('Test order model', (): void => {
 
     // addProductToOrder method returns success
     it('addProductToOrder method should return success', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel1',
+            user_name: 'testModel1',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
+
         const order = await store.openOrder(orderUser.id as number)
         const product = await productModel.insert({
             name: 'new product',
@@ -65,12 +64,30 @@ describe('Test order model', (): void => {
 
     // openOrder method returns new order
     it('openOrder method should return new order', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel2',
+            user_name: 'testModel2',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
         const result = await store.openOrder(orderUser.id as number)
         expect(typeof result == 'object').toBeTrue()
     })
 
     // currentOrder method returns order
     it('currntOrder method should return new order', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel3',
+            user_name: 'testModel3',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
         await store.openOrder(orderUser.id as number)
         const currentOrder = await store.currntOrder(orderUser.id as number)
         expect(typeof currentOrder == 'object').toBeTrue()
@@ -78,6 +95,16 @@ describe('Test order model', (): void => {
 
     // completeOrderr method returns true
     it('completeOrder method should return true', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel4',
+            user_name: 'testModel4',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
+
         await store.openOrder(orderUser.id as number)
         await store.currntOrder(orderUser.id as number)
         const completeOrder = await store.completeOrder(orderUser.id as number)
@@ -86,6 +113,16 @@ describe('Test order model', (): void => {
 
     // completedOrders order method returns array of orders
     it('openOrder method should return array of ordera', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel5',
+            user_name: 'testModel5',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
+
         const completedOrders = await store.completedOrders(
             orderUser.id as number
         )
@@ -93,9 +130,19 @@ describe('Test order model', (): void => {
     })
 
     // showOrder order method returns order
-    it('showOrder method should return  order', async (): Promise<void> => {
+    it('showOrder method should return order', async (): Promise<void> => {
+        let orderUser: user = {
+            first_name: 'abdallah',
+            last_name: 'osama',
+            email: 'testModel6',
+            user_name: 'testModel6',
+            password: '123456',
+        }
+        const userModel = new userStore()
+        orderUser = await userModel.insert(orderUser)
+
         const openOrder = await store.openOrder(orderUser.id as number)
-        const completedOrders = await store.showOrder(openOrder.id as number)
-        expect(typeof completedOrders == 'object').toBeTrue()
+        const order = await store.showOrder(openOrder.id as number)
+        expect(typeof order == 'object').toBeTrue()
     })
 })

@@ -11,15 +11,17 @@ if (config.ENV === 'dev') {
         database: config.dbName,
         user: config.dbUser,
         password: config.dbPassword,
+        port: parseInt(config.dbPort as string),
     })
 
-    // connect for testing
+// connect for testing
 } else {
     client = new Pool({
         host: config.dbHost,
         database: config.dbTest,
         user: config.dbUser,
         password: config.dbPassword,
+        port: parseInt(config.dbPort as string),
     })
 }
 
