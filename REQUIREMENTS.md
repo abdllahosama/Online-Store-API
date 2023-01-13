@@ -24,26 +24,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## Data Shapes
 
 #### Products
--  id integer not null primary key 
-- name character varyong(100)
-- description text
-- price integer
+- <strong>id</strong> integer not null primary key 
+- <strong>name</strong> character varyong(100)
+- <strong>description</strong> text
+- <strong>price</strong> integer
 
 #### Users
-- id integer not null primary key 
-- first_name character varying(100) not null
-- last_name character varying(100) not null
-- email character varying(50) not null
-- user_name character varying(50) not null
-- password character varying(255) not null
+- <strong>id</strong> integer not null primary key 
+- <strong>first_name</strong> character varying(100) not null
+- <strong>last_name</strong> character varying(100) not null
+- <strong>email</strong> character varying(50) not null
+- <strong>user_name</strong> character varying(50) not null
+- <strong>password</strong> character varying(255) not null
 
 #### Orders
-- id integer not null primary key 
-- user_id integer not null FOREIGN KEY REFERENCES users(id)
-- status enum (active, complete)
+- <strong>id</strong> integer not null primary key 
+- <strong>user_id</strong> integer not null FOREIGN KEY REFERENCES users(id)
+- <strong>status</strong> enum (active, complete)
 
 ### Order_products
-- id integer not null primary key 
-- order_id integer not null FOREIGN KEY REFERENCES orders(id)
-- product_id integer not null  FOREIGN KEY REFERENCES products(id)
-- quantity integer not null
+- <strong>id</strong> integer not null primary key 
+- <strong>order_id</strong> integer not null FOREIGN KEY REFERENCES orders(id)
+- <strong>product_id</strong> integer not null  FOREIGN KEY REFERENCES products(id)
+- <strong>quantity</strong> integer not null
