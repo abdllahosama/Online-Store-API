@@ -7,6 +7,14 @@ jobs:
   job_one:
     name: Deploy
     runs-on: ubuntu-latest
-    # steps:
-    # - name: tetsing server connection
-    #   uses: 
+    steps:
+    - name: tetsing server connection
+      uses: appleboy/ssh-action@master
+      with:
+        host: 5.9.238.23
+        username: devsallatk
+        key: ${{ secrets.OMG_SECRET }}
+        port: 22
+        script: |
+          cd abdallah
+          sh deploy.sh
